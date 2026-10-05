@@ -663,14 +663,22 @@
   .work-sec:has(.co-folder:focus-within) .worked-h { opacity: .16; }
   .brands { z-index: 8; }
   .worked-track {
-    position: relative; display: flex; gap: clamp(1.1rem, 3.2vw, 2.9rem);
+    --co-gap: clamp(1.1rem, 3.2vw, 2.9rem);
+    position: relative; display: flex; gap: var(--co-gap);
     flex: none; padding-right: .3rem;
   }
-  /* dotted connector, threaded through the tile centres */
-  .worked-track::before {
-    content: ""; position: absolute; z-index: 0;
-    left: 8px; right: 8px; top: 32px;
-    border-top: 2px dotted rgba(84, 70, 48, .28);
+  /* The connector hangs off each tile and stops at the last one. A single line
+     across the whole track overshot: a .co column is 112px wide (sized by its
+     date label) while the tile is only 64px, so it ran 45px past the final
+     tile and pointed at nothing.
+     Scoped to the single-row layout — below 620px the trail runs vertically
+     and has its own ::after, which would otherwise inherit this border-top. */
+  @media (min-width: 621px) {
+    .co:not(:last-child)::after {
+      content: ""; position: absolute; z-index: 0;
+      top: 32px; left: 64px; right: calc(-1 * var(--co-gap));
+      border-top: 2px dotted rgba(84, 70, 48, .28);
+    }
   }
 
   /* fixed column width: without it the flex gap sits between column EDGES, and
@@ -1066,7 +1074,7 @@
   .tn {
     position: relative;
     margin: 0;                 /* <figure> ships with 1em 40px from the UA sheet */
-    min-height: 330px;
+    min-height: 236px;         /* the real quotes are short — 330px left a void */
     padding: 1.7rem 1.3rem 1.35rem;
     border-radius: 2px;
     display: flex; flex-direction: column; gap: .85rem;
@@ -1802,31 +1810,31 @@
         <h2 class="worked-h">Notes from nice people</h2>
         <div class="tn-grid">
           <figure class="tn tn-1">
-            <q>Asks the question everyone else skipped &mdash; then goes and answers it. She spent a week talking to support staff nobody had thought to ask, came back with three findings, and quietly reshaped the roadmap around them. Half of what shipped that quarter started in her notes.</q>
+            <q>She brought in new ideas, helped steer high-level product decisions, and always kept the user at the center</q>
             <figcaption class="tn-by">
-              <span class="tn-av" aria-hidden="true">PR</span>
-              <span class="tn-who"><b>Priya R.</b>Product Manager</span>
+              <span class="tn-av" aria-hidden="true">MH</span>
+              <span class="tn-who"><b>McKenzie Heik</b>CEO &amp; Co-founder, Tapsta</span>
             </figcaption>
           </figure>
           <figure class="tn tn-2">
-            <q>Turned a six-month argument into one screen we all agreed on. Engineering had one version, sales had another, and she sat through both without picking a side until she understood why each existed. What she brought back made the disagreement look like a misunderstanding.</q>
+            <q>Every screen came with context, and she&rsquo;d always make time to walk through her thinking</q>
             <figcaption class="tn-by">
-              <span class="tn-av" aria-hidden="true">DM</span>
-              <span class="tn-who"><b>Dev M.</b>Engineering Lead</span>
+              <span class="tn-av" aria-hidden="true">SR</span>
+              <span class="tn-who"><b>Sai Ravi Teja</b>Developer, Tapsta</span>
             </figcaption>
           </figure>
           <figure class="tn tn-3">
-            <q>She&rsquo;ll redraw it four times, and the fourth one always looks obvious &mdash; which is the whole trick. Working with her taught me that &ldquo;obvious&rdquo; is something you arrive at, not something you start with. She never once defended a draft she&rsquo;d outgrown.</q>
+            <q>She brought fresh ideas, challenged assumptions, and always kept the user at the center</q>
             <figcaption class="tn-by">
-              <span class="tn-av" aria-hidden="true">AS</span>
-              <span class="tn-who"><b>Ananya S.</b>Senior Designer</span>
+              <span class="tn-av" aria-hidden="true">MS</span>
+              <span class="tn-who"><b>Mohammed Sheriff</b>Principal PM, Quantela</span>
             </figcaption>
           </figure>
           <figure class="tn tn-4">
-            <q>Somehow makes research readable. Half the team still cites her deck from last spring, including people who joined afterwards and have never met her. It became the thing new hires get sent in their first week, which is not what usually happens to research decks.</q>
+            <q>She didn&rsquo;t just use standard methods, she brought curiosity, empathy, and a wider perspective</q>
             <figcaption class="tn-by">
-              <span class="tn-av" aria-hidden="true">RK</span>
-              <span class="tn-who"><b>Rohan K.</b>Founder</span>
+              <span class="tn-av" aria-hidden="true">AP</span>
+              <span class="tn-who"><b>Anagha Pullangotte</b>Founder &amp; CEO, Traffix</span>
             </figcaption>
           </figure>
         </div>
@@ -1867,8 +1875,8 @@
           <div class="ph-wrap">
             <div class="ph ph-1"><img src="assets/saathvika-trail.jpg" alt="Saathvika on a mountain trail with a pack and trekking pole"></div>
             <div class="ph ph-2"><img src="assets/saathvika-calf.jpg" alt="Saathvika leaning her head against a calf on a stone path"></div>
-            <span class="callout callout-1">no signal, on purpose</span>
-            <span class="callout callout-2">unscheduled stakeholder meeting</span>
+            <span class="callout callout-1">It&rsquo;s always worth the climb</span>
+            <span class="callout callout-2">wannabe animal whisperer</span>
           </div>
         </div>
 
